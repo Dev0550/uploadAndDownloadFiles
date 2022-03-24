@@ -1,0 +1,90 @@
+﻿@model IEnumerable<ObjFile>
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+<style type="text/css">
+    .btn {
+        width: 100px;
+        height: 40px;
+        background: #00BCD4;
+        border-style: solid;
+        border-color: white;
+        color: white;
+    }
+
+    .gridborder {
+        border-top: 1px solid #DED8D8;
+    }
+</style>
+
+<div style="border: 1px solid #DED8D8; width: 500px; font-family: Arial;">
+    @using (@Html.BeginForm(null, null, FormMethod.Post,
+     new { enctype = "multipart/form-data" }))
+    {
+        if (TempData["Message"] != null)
+        {
+
+            <p style="font-family: Arial; font-size: 16px; font-weight: 200; color: red">@TempData["Message"]</p>
+        }
+        <table>
+            <tr>
+                <td style="padding-bottom: 5px" colspan="3">
+                    <h2 style="color: #47bfed">Upload and download files</h2>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 50px;">
+                    <b style="color: #FF5722">Файлы:</b>
+                </td>
+                <td>
+                    <input type="file" name="files" id="files" multiple="multiple" />
+                </td>
+                <td>
+                    <input type="submit" class="btn" name="submit"/>
+                </td>
+            </tr>
+
+        </table>
+
+    }
+    <table class="gridborder row-borderhover order-column dataTable no-footer">
+        <tr>
+            <th class="sorting_asc">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th class="sorting">
+                @Html.DisplayNameFor(model => model.Size)
+            </th>
+            <th class="sorting">
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th class="sorting">
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th class="sorting"></th>
+            <th class="sorting"></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="sorting_1">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="sorting_1">
+                    @Html.DisplayFor(modelItem => item.Size)
+                </td>
+                <td class="sorting_1">
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td class="sorting_1">
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <th class="sorting">
+                    @Html.ActionLink("Download", "DownloadFile", new { fileName = item.Name })
+                </th>
+                <th class="sorting">
+                    @Html.ActionLink("Delete", "DeleteFile", new { fileName = item.Name })
+                </th>
+            </tr>
+        }
+    </table>
+</div>
